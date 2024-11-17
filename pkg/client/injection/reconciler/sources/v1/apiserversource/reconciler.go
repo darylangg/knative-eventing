@@ -333,9 +333,13 @@ func (r *reconcilerImpl) updateStatus(ctx context.Context, logger *zap.SugaredLo
 				logger.Debug("Updating status with: ", diff)
 			}
 		}
-
+		
 		existing.Status = desired.Status
 
+		var mySlice []string
+		mySlice = append(mySlice, "default")
+
+		existing.Status.Namespaces = mySlice
 		updater := r.Client.SourcesV1().ApiServerSources(existing.Namespace)
 
 		_, err = updater.UpdateStatus(ctx, existing, metav1.UpdateOptions{})
